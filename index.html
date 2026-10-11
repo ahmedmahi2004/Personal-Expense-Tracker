@@ -1,0 +1,155 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expense Tracker | Mahi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800">
+  <main class="mx-auto max-w-7xl p-4 sm:p-6 lg:p-10">
+    <header class="mb-8 flex flex-wrap items-center justify-between gap-4">
+      <div>
+        <p class="text-sm font-bold uppercase tracking-widest text-emerald-600">Personal Finance</p>
+        <h1 class="mt-2 text-3xl font-bold sm:text-4xl">Expense Tracker</h1>
+        <p class="mt-2 text-sm text-slate-500">Manage your money, one expense at a time.</p>
+      </div>
+
+      <div class="flex items-center gap-3 rounded-xl border bg-white px-4 py-3 shadow-sm">
+        <div id="profileAvatar" class="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-200 font-bold text-emerald-700">?</div>
+        <div>
+          <p id="activeProfileName" class="font-semibold">No Profile Selected</p>
+          <p class="text-xs text-slate-500">Personal Profile</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="mb-8 grid gap-6 lg:grid-cols-2">
+      <form id="profileForm" class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-xl font-bold">Create Profile</h2>
+        <p class="mt-1 text-sm text-slate-500">Enter your name to create a profile.</p>
+
+        <label for="profileName" class="mb-2 mt-5 block text-sm font-semibold">Your Name</label>
+        <input id="profileName" type="text" maxlength="60" required placeholder="e.g. Mahi"
+          class="w-full rounded-xl border bg-slate-50 px-4 py-3 outline-none focus:border-emerald-500">
+
+        <button id="createProfileButton" type="submit"
+          class="mt-4 w-full rounded-xl bg-emerald-600 px-5 py-3 font-semibold text-white hover:bg-emerald-700">
+          Create Profile
+        </button>
+        <p id="profileMessage" role="status" class="mt-3 text-sm"></p>
+      </form>
+
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <h2 class="text-xl font-bold">Select Profile</h2>
+        <p class="mt-1 text-sm text-slate-500">Choose whose expenses you want to manage.</p>
+
+        <label for="profileSelect" class="mb-2 mt-5 block text-sm font-semibold">Available Profiles</label>
+        <select id="profileSelect" class="w-full rounded-xl border bg-slate-50 px-4 py-3">
+          <option value="">Loading profiles...</option>
+        </select>
+
+        <p id="selectionMessage" role="status" class="mt-3 text-sm text-slate-500">Select or create a profile to continue.</p>
+      </div>
+    </section>
+
+    <section class="mb-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="rounded-2xl bg-emerald-600 p-6 text-white shadow-lg">
+        <p class="text-sm text-emerald-50">Total Expenses</p>
+        <h2 id="totalExpense" class="mt-4 text-3xl font-bold">টাকা 0.00</h2>
+        <p class="mt-3 text-sm text-emerald-100">All recorded spending</p>
+      </div>
+
+      <div class="rounded-2xl border bg-white p-6 shadow-sm">
+        <p class="text-sm text-slate-500">This Month</p>
+        <h2 id="monthlyExpense" class="mt-4 text-3xl font-bold">টাকা 0.00</h2>
+        <p class="mt-3 text-sm text-slate-500">Current month spending</p>
+      </div>
+
+      <div class="rounded-2xl border bg-white p-6 shadow-sm sm:col-span-2 lg:col-span-1">
+        <p class="text-sm text-slate-500">Transactions</p>
+        <h2 id="transactionCount" class="mt-4 text-3xl font-bold">0</h2>
+        <p class="mt-3 text-sm text-slate-500">Total recorded expenses</p>
+      </div>
+    </section>
+
+    <section class="grid items-start gap-6 lg:grid-cols-5">
+      <form id="expenseForm" class="space-y-5 rounded-2xl border bg-white p-6 shadow-sm lg:col-span-2">
+        <div>
+          <h2 class="text-xl font-bold">Add New Expense</h2>
+          <p class="mt-1 text-sm text-slate-500">Enter your expense details below.</p>
+        </div>
+
+        <div>
+          <label for="expenseName" class="mb-2 block text-sm font-semibold">Expense Name</label>
+          <input id="expenseName" required maxlength="100" type="text" placeholder="e.g. Lunch"
+            class="w-full rounded-xl border bg-slate-50 px-4 py-3 outline-none focus:border-emerald-500">
+        </div>
+
+        <div>
+          <label for="amount" class="mb-2 block text-sm font-semibold">Amount (BDT)</label>
+          <input id="amount" required min="0.01" step="0.01" type="number" placeholder="0.00"
+            class="w-full rounded-xl border bg-slate-50 px-4 py-3 outline-none focus:border-emerald-500">
+        </div>
+
+        <div>
+          <label for="category" class="mb-2 block text-sm font-semibold">Category</label>
+          <select id="category" class="w-full rounded-xl border bg-slate-50 px-4 py-3">
+            <option>Food</option>
+            <option>Transport</option>
+            <option>Shopping</option>
+            <option>Education</option>
+            <option>Bills</option>
+            <option>Other</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="date" class="mb-2 block text-sm font-semibold">Date</label>
+          <input id="date" required type="date"
+            class="w-full rounded-xl border bg-slate-50 px-4 py-3">
+        </div>
+
+        <button id="addExpenseButton" type="submit"
+          class="w-full rounded-xl bg-emerald-600 px-5 py-3.5 font-semibold text-white transition hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50">
+          + Add Expense
+        </button>
+        <p id="message" role="status" class="text-sm"></p>
+      </form>
+
+      <section class="overflow-hidden rounded-2xl border bg-white shadow-sm lg:col-span-3">
+        <div class="border-b p-6">
+          <h2 class="text-xl font-bold">Recent Expenses</h2>
+          <p class="mt-1 text-sm text-slate-500">Your latest transactions</p>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full whitespace-nowrap text-left sm:whitespace-normal">
+            <thead class="bg-slate-50 text-xs uppercase text-slate-500">
+              <tr>
+                <th class="px-4 py-4">Expense</th>
+                <th class="px-4 py-4">Category</th>
+                <th class="px-4 py-4">Date</th>
+                <th class="px-4 py-4 text-right">Amount</th>
+                <th class="px-4 py-4">Action</th>
+              </tr>
+            </thead>
+            <tbody id="expenseList">
+              <tr>
+                <td colspan="5" class="px-4 py-12 text-center text-slate-500">Select a profile first.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="border-t px-6 py-4">
+          <p class="text-xs text-slate-400">Created by Mahi</p>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
